@@ -12,7 +12,7 @@ import { BigNumberBanner } from "./big-number-banner"
 import { ActionButtons } from "./action-buttons"
 import { Skeleton } from "@/components/ui/skeleton"
 import { analyzeAudio, type AudioStats } from "@/lib/audio-utils"
-import { formatFull, formatCompact, formatDuration, formatHz } from "@/lib/format"
+import { formatFull, formatDuration, formatHz } from "@/lib/format"
 import { exampleToFile, findExample, randomExample } from "@/lib/examples"
 import { useI18n } from "@/lib/i18n"
 
@@ -106,13 +106,13 @@ export function AudioTab({ initialExampleId }: { initialExampleId?: string }) {
             <ActionButtons
               title={`${t.media.audio}: ${filename}`}
               onReset={reset}
-              stats=
+              stats={{
                 [t.stats.duration]: formatDuration(stats.duration),
                 [t.stats.sampleRate]: formatHz(stats.sampleRate),
-                [t.stats.channels]: stats.channels,
+                [t.stats.channels]: `${stats.channels}`,
                 [t.stats.totalSamples]: formatFull(stats.totalSamples),
-                [t.stats.estAmplitude]: formatFull(stats.estimatedValues),
-              
+                [t.stats.estNumericValues]: formatFull(stats.estimatedValues),
+              }}
             />
           </div>
 
