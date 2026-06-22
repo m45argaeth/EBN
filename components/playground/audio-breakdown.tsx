@@ -5,6 +5,7 @@ import { Activity, AudioLines, Binary } from "lucide-react"
 
 import { extractAudioSamples, type AudioSampleData } from "@/lib/audio-samples"
 import { formatDuration } from "@/lib/format"
+import { useI18n } from "@/lib/i18n"
 import { Arrow, StageCard } from "./breakdown-ui"
 
 const WINDOW = 16
@@ -20,6 +21,7 @@ export function AudioBreakdown({ objectUrl, peaks }: AudioBreakdownProps) {
   const [error, setError] = React.useState<string | null>(null)
   const [index, setIndex] = React.useState(0)
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
+  const { t, locale } = useI18n()
 
   React.useEffect(() => {
     let cancelled = false
@@ -34,12 +36,13 @@ export function AudioBreakdown({ objectUrl, peaks }: AudioBreakdownProps) {
       })
       .catch((err: Error) => {
         if (cancelled) return
-        setError(err.message || "Could not read audio samples.")
+        setError(err.message || t.breakdown.readAudioError)
         setLoading(false)
       })
     return () => {
       cancelled = true
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [objectUrl])
 
   React.useEffect(() => {
@@ -102,15 +105,15 @@ export function AudioBreakdown({ objectUrl, peaks }: AudioBreakdownProps) {
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap items-baseline gap-x-2">
-        <span className="text-sm font-medium">See it happen</span>
+        <span className="text-sm font-medium">{t.breakdown.seeItHappen}</span>
         <span className="text-xs text-muted-foreground">
-          samples, and the numbers behind them.
+          {t.breakdown.audioCaption}
         </span>
       </div>
 
       {loading ? (
         <div className="rounded-xl border bg-card p-6 text-center text-sm text-muted-foreground">
-          Reading audio samples…
+          {t.breakdown.readingAudio}
         </div>
       ) : error ? (
         <div className="rounded-xl border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive">
@@ -120,8 +123,8 @@ export function AudioBreakdown({ objectUrl, peaks }: AudioBreakdownProps) {
         <div className="space-y-3">
           <StageCard
             icon={AudioLines}
-            title="Waveform"
-            hint="Tap the wave to inspect a moment in time."
+            title={t.breakdown.waveformTitle}
+            hint={t.breakdown.waveformHint}
           >
             <canvas
               ref={canvasRef}
@@ -132,10 +135,10 @@ export function AudioBreakdown({ objectUrl, peaks }: AudioBreakdownProps) {
               }}
               className="h-28 w-full cursor-crosshair touch-none text-primary"
               role="img"
-              aria-label="Interactive audio waveform"
+              aria-label={t.breakdown.waveformAria}
             />
             <p className="mt-2 text-center font-mono text-xs text-muted-foreground">
-              t = {formatDuration(time)} · sample #{index.toLocaleString("en-US")}
+              t = {formatDuration(time)} · {t.breakdown.sampleLabel} #{index.toLocaleString(locale === "id" ? "id-ID" : "en-US")}
             </p>
           </StageCard>
 
@@ -143,8 +146,8 @@ export function AudioBreakdown({ objectUrl, peaks }: AudioBreakdownProps) {
 
           <StageCard
             icon={Activity}
-            title="Samples"
-            hint={`${WINDOW} consecutive amplitude readings around that point.`}
+            title={t.breakdown.samplesTitle}
+            hint={t.breakdown.samplesHint}
           >
             <div className="flex h-24 items-end gap-1">
               {windowSamples.map((v, i) => {
@@ -153,7 +156,7 @@ export function AudioBreakdown({ objectUrl, peaks }: AudioBreakdownProps) {
                   <div key={i} className="flex-1">
                     <div
                       className="mx-auto w-full rounded-sm bg-primary"
-                      style={ { height: `${Math.max(2, Math.min(100, h))}%` } }
+                      style={{ height: `${Math.max(2, Math.min(100, h))}%` }}
                     />
                   </div>
                 )
@@ -161,12 +164,12 @@ export function AudioBreakdown({ objectUrl, peaks }: AudioBreakdownProps) {
             </div>
           </StageCard>
 
-          <Arrow label="becomes" />
+          <Arrow label={t.breakdown.becomes} />
 
           <StageCard
             icon={Binary}
-            title="Numbers"
-            hint="Each sample is one number — the amplitude at that instant."
+            title={t.breakdown.numbersTitle}
+            hint={t.breakdown.audioNumbersHint}
           >
             <div className="grid grid-cols-4 gap-1 sm:grid-cols-8">
               {windowSamples.map((v, i) => (
@@ -182,7 +185,7 @@ export function AudioBreakdown({ objectUrl, peaks }: AudioBreakdownProps) {
               ))}
             </div>
             <p className="mt-2 text-[10px] text-muted-foreground">
-              Top: normalized (−1…1). Bottom: 16-bit PCM (−32768…32767).
+              {t.breakdown.pcmNote}
             </p>
           </StageCard>
         </div>

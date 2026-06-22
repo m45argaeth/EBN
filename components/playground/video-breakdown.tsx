@@ -5,6 +5,7 @@ import { Image as ImageIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { extractVideoFrames, type VideoFrame } from "@/lib/video-frames"
+import { useI18n } from "@/lib/i18n"
 import { Arrow, StageCard } from "./breakdown-ui"
 import { PixelNumbers } from "./pixel-numbers"
 
@@ -25,6 +26,7 @@ export function VideoBreakdown({
   const [selected, setSelected] = React.useState(0)
   const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState<string | null>(null)
+  const { t } = useI18n()
 
   React.useEffect(() => {
     let cancelled = false
@@ -39,12 +41,13 @@ export function VideoBreakdown({
       })
       .catch((err: Error) => {
         if (cancelled) return
-        setError(err.message || "Could not break this video into frames.")
+        setError(err.message || t.breakdown.breakFramesError)
         setLoading(false)
       })
     return () => {
       cancelled = true
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [objectUrl, duration, channels])
 
   const frame = frames[selected]
@@ -52,15 +55,15 @@ export function VideoBreakdown({
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap items-baseline gap-x-2">
-        <span className="text-sm font-medium">See it happen</span>
+        <span className="text-sm font-medium">{t.breakdown.seeItHappen}</span>
         <span className="text-xs text-muted-foreground">
-          frames, pixels, and the numbers behind them.
+          {t.breakdown.videoCaption}
         </span>
       </div>
 
       {loading ? (
         <div className="rounded-xl border bg-card p-6 text-center text-sm text-muted-foreground">
-          Breaking the video into frames…
+          {t.breakdown.breakingFrames}
         </div>
       ) : error ? (
         <div className="rounded-xl border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive">
@@ -70,8 +73,8 @@ export function VideoBreakdown({
         <div className="space-y-3">
           <StageCard
             icon={ImageIcon}
-            title="Frames"
-            hint="The video is just a sequence of these. Pick one."
+            title={t.breakdown.framesTitle}
+            hint={t.breakdown.framesHint}
           >
             <div className="flex gap-2 overflow-x-auto pb-1">
               {frames.map((f) => (

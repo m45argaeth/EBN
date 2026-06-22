@@ -12,15 +12,16 @@ import { BigNumberBanner } from "./big-number-banner"
 import { ActionButtons } from "./action-buttons"
 import { Skeleton } from "@/components/ui/skeleton"
 import { analyzeAudio, type AudioStats } from "@/lib/audio-utils"
-import { explain } from "@/lib/explanations"
 import { formatFull, formatCompact, formatDuration, formatHz } from "@/lib/format"
 import { exampleToFile, findExample, randomExample } from "@/lib/examples"
+import { useI18n } from "@/lib/i18n"
 
 export function AudioTab({ initialExampleId }: { initialExampleId?: string }) {
   const [stats, setStats] = React.useState<AudioStats | null>(null)
   const [filename, setFilename] = React.useState("")
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
+  const { t, compact, explain } = useI18n()
 
   const reset = React.useCallback(() => {
     setStats((prev) => {
@@ -35,7 +36,7 @@ export function AudioTab({ initialExampleId }: { initialExampleId?: string }) {
 
   const process = async (file: File) => {
     if (!file.type.startsWith("audio/")) {
-      setError("That file is not audio. Please choose a WAV, MP3, or OGG file.")
+      setError(t.errors.notAudio)
       return
     }
     setLoading(true)
@@ -48,8 +49,8 @@ export function AudioTab({ initialExampleId }: { initialExampleId?: string }) {
       })
       setFilename(file.name)
     } catch (err) {
-      setError((err as Error).message || "Could not process this audio file.")
-      toast.error("Could not process this audio file")
+      setError((err as Error).message || t.errors.processAudio)
+      toast.error(t.errors.processAudioToast)
     } finally {
       setLoading(false)
     }
@@ -64,7 +65,7 @@ export function AudioTab({ initialExampleId }: { initialExampleId?: string }) {
       const file = await exampleToFile(example)
       await process(file)
     } catch (err) {
-      setError((err as Error).message || "Could not load example.")
+      setError((err as Error).message || t.errors.loadExample)
       setLoading(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -83,8 +84,8 @@ export function AudioTab({ initialExampleId }: { initialExampleId?: string }) {
     <div className="space-y-8">
       <Dropzone
         accept="audio/*"
-        label="Drop an audio file here"
-        hint="WAV, MP3, OGG, M4A — decoded entirely in your browser."
+        label={t.dropzone.audio.label}
+        hint={t.dropzone.audio.hint}
         onFile={process}
         onRandom={loadRandom}
         disabled={loading}
@@ -103,20 +104,20 @@ export function AudioTab({ initialExampleId }: { initialExampleId?: string }) {
           <div className="flex flex-wrap items-center justify-between gap-3">
             <h2 className="text-lg font-medium">{filename}</h2>
             <ActionButtons
-              title={`Audio: ${filename}`}
+              title={`${t.media.audio}: ${filename}`}
               onReset={reset}
-              stats={ {
-                Duration: formatDuration(stats.duration),
-                "Sample Rate": formatHz(stats.sampleRate),
-                Channels: stats.channels,
-                "Total Samples": formatFull(stats.totalSamples),
-                "Estimated Amplitude Measurements": formatFull(stats.estimatedValues),
-              } }
+              stats=
+                [t.stats.duration]: formatDuration(stats.duration),
+                [t.stats.sampleRate]: formatHz(stats.sampleRate),
+                [t.stats.channels]: stats.channels,
+                [t.stats.totalSamples]: formatFull(stats.totalSamples),
+                [t.stats.estAmplitude]: formatFull(stats.estimatedValues),
+              
             />
           </div>
 
           <audio controls src={stats.objectUrl} className="w-full">
-            Your browser does not support the audio element.
+            {t.player.audioFallback}
           </audio>
 
           <Waveform peaks={stats.peaks} />
@@ -124,20 +125,20 @@ export function AudioTab({ initialExampleId }: { initialExampleId?: string }) {
           <AudioBreakdown objectUrl={stats.objectUrl} peaks={stats.peaks} />
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <StatCard label="Duration" value={formatDuration(stats.duration)} />
-            <StatCard label="Sample Rate" value={formatHz(stats.sampleRate)} />
-            <StatCard label="Channels" value={stats.channels} />
-            <StatCard label="Total Samples" value={formatCompact(stats.totalSamples)} />
+            <StatCard label={t.stats.duration} value={formatDuration(stats.duration)} />
+            <StatCard label={t.stats.sampleRate} value={formatHz(stats.sampleRate)} />
+            <StatCard label={t.stats.channels} value={stats.channels} />
+            <StatCard label={t.stats.totalSamples} value={compact(stats.totalSamples)} />
           </div>
 
           <BigNumberBanner
             value={stats.estimatedValues}
-            unitSentence="amplitude measurements over time."
+            unitSentence={t.banner.audio}
           />
 
           <p className="text-center text-xs text-muted-foreground">
-            duration ({formatDuration(stats.duration)}) × sample rate ({formatHz(stats.sampleRate)}) ×
-            channels ({stats.channels})
+            {t.formula.duration} ({formatDuration(stats.duration)}) × {t.formula.sampleRate} ({formatHz(stats.sampleRate)}) ×
+            {" "}{t.formula.channels} ({stats.channels})
           </p>
 
           <EducationalNote explanation={explanation} />

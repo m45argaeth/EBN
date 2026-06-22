@@ -12,15 +12,16 @@ import { BigNumberBanner } from "./big-number-banner"
 import { ActionButtons } from "./action-buttons"
 import { Skeleton } from "@/components/ui/skeleton"
 import { analyzeImage, type ImageProbe } from "@/lib/image-utils"
-import { explain } from "@/lib/explanations"
-import { formatFull, formatCompact } from "@/lib/format"
+import { formatFull } from "@/lib/format"
 import { exampleToFile, findExample, randomExample } from "@/lib/examples"
+import { useI18n } from "@/lib/i18n"
 
 export function ImagesTab({ initialExampleId }: { initialExampleId?: string }) {
   const [probe, setProbe] = React.useState<ImageProbe | null>(null)
   const [filename, setFilename] = React.useState<string>("")
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
+  const { t, compact, explain } = useI18n()
 
   const reset = React.useCallback(() => {
     setProbe((prev) => {
@@ -35,7 +36,7 @@ export function ImagesTab({ initialExampleId }: { initialExampleId?: string }) {
 
   const process = async (file: File) => {
     if (!file.type.startsWith("image/")) {
-      setError("That file is not an image. Please choose a PNG, JPG, or WebP.")
+      setError(t.errors.notImage)
       return
     }
     setLoading(true)
@@ -48,8 +49,8 @@ export function ImagesTab({ initialExampleId }: { initialExampleId?: string }) {
       })
       setFilename(file.name)
     } catch (err) {
-      setError((err as Error).message || "Could not process this image.")
-      toast.error("Could not process this image")
+      setError((err as Error).message || t.errors.processImage)
+      toast.error(t.errors.processImageToast)
     } finally {
       setLoading(false)
     }
@@ -64,7 +65,7 @@ export function ImagesTab({ initialExampleId }: { initialExampleId?: string }) {
       const file = await exampleToFile(example)
       await process(file)
     } catch (err) {
-      setError((err as Error).message || "Could not load example.")
+      setError((err as Error).message || t.errors.loadExample)
       setLoading(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -85,8 +86,8 @@ export function ImagesTab({ initialExampleId }: { initialExampleId?: string }) {
     <div className="space-y-8">
       <Dropzone
         accept="image/*"
-        label="Drop an image here"
-        hint="PNG, JPG, WebP, GIF — processed entirely in your browser."
+        label={t.dropzone.image.label}
+        hint={t.dropzone.image.hint}
         onFile={process}
         onRandom={loadRandom}
         disabled={loading}
@@ -105,15 +106,15 @@ export function ImagesTab({ initialExampleId }: { initialExampleId?: string }) {
           <div className="flex flex-wrap items-center justify-between gap-3">
             <h2 className="text-lg font-medium">{filename}</h2>
             <ActionButtons
-              title={`Image: ${filename}`}
+              title={`${t.media.image}: ${filename}`}
               onReset={reset}
-              stats={ {
-                Width: `${stats.width}px`,
-                Height: `${stats.height}px`,
-                "Total Pixels": formatFull(stats.totalPixels),
-                "Color Channels": `${stats.channels} (${stats.hasAlpha ? "RGBA" : "RGB"})`,
-                "Estimated Numeric Values": formatFull(stats.estimatedValues),
-              } }
+              stats={{
+                [t.stats.width]: `${stats.width}px`,
+                [t.stats.height]: `${stats.height}px`,
+                [t.stats.totalPixels]: formatFull(stats.totalPixels),
+                [t.stats.colorChannels]: `${stats.channels} (${stats.hasAlpha ? "RGBA" : "RGB"})`,
+                [t.stats.estNumericValues]: formatFull(stats.estimatedValues),
+              }}
             />
           </div>
 
@@ -122,24 +123,24 @@ export function ImagesTab({ initialExampleId }: { initialExampleId?: string }) {
           <ImageBreakdown probe={probe} />
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-            <StatCard label="Width" value={`${stats.width}px`} />
-            <StatCard label="Height" value={`${stats.height}px`} />
-            <StatCard label="Total Pixels" value={formatFull(stats.totalPixels)} />
+            <StatCard label={t.stats.width} value={`${stats.width}px`} />
+            <StatCard label={t.stats.height} value={`${stats.height}px`} />
+            <StatCard label={t.stats.totalPixels} value={formatFull(stats.totalPixels)} />
             <StatCard
-              label="Color Channels"
+              label={t.stats.colorChannels}
               value={stats.channels}
               hint={stats.hasAlpha ? "RGBA" : "RGB"}
             />
             <StatCard
-              label="Est. Numeric Values"
-              value={formatCompact(stats.estimatedValues)}
+              label={t.stats.estNumericValuesShort}
+              value={compact(stats.estimatedValues)}
               hint={`${formatFull(stats.totalPixels)} × ${stats.channels}`}
             />
           </div>
 
           <BigNumberBanner
             value={stats.estimatedValues}
-            unitSentence="numerical values that describe this image."
+            unitSentence={t.banner.image}
           />
 
           <EducationalNote explanation={explanation} />

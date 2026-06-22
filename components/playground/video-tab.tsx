@@ -12,15 +12,16 @@ import { Pipeline } from "./pipeline"
 import { VideoBreakdown } from "./video-breakdown"
 import { Skeleton } from "@/components/ui/skeleton"
 import { analyzeVideo, type VideoStats } from "@/lib/video-utils"
-import { explain } from "@/lib/explanations"
 import { formatFull, formatDuration } from "@/lib/format"
 import { exampleToFile, findExample, randomExample } from "@/lib/examples"
+import { useI18n } from "@/lib/i18n"
 
 export function VideoTab({ initialExampleId }: { initialExampleId?: string }) {
   const [stats, setStats] = React.useState<VideoStats | null>(null)
   const [filename, setFilename] = React.useState("")
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
+  const { t, explain } = useI18n()
 
   const reset = React.useCallback(() => {
     setStats((prev) => {
@@ -35,7 +36,7 @@ export function VideoTab({ initialExampleId }: { initialExampleId?: string }) {
 
   const process = async (file: File) => {
     if (!file.type.startsWith("video/")) {
-      setError("That file is not a video. Please choose an MP4 or WebM file.")
+      setError(t.errors.notVideo)
       return
     }
     setLoading(true)
@@ -48,8 +49,8 @@ export function VideoTab({ initialExampleId }: { initialExampleId?: string }) {
       })
       setFilename(file.name)
     } catch (err) {
-      setError((err as Error).message || "Could not process this video file.")
-      toast.error("Could not process this video file")
+      setError((err as Error).message || t.errors.processVideo)
+      toast.error(t.errors.processVideoToast)
     } finally {
       setLoading(false)
     }
@@ -64,7 +65,7 @@ export function VideoTab({ initialExampleId }: { initialExampleId?: string }) {
       const file = await exampleToFile(example)
       await process(file)
     } catch (err) {
-      setError((err as Error).message || "Could not load example.")
+      setError((err as Error).message || t.errors.loadExample)
       setLoading(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -83,8 +84,8 @@ export function VideoTab({ initialExampleId }: { initialExampleId?: string }) {
     <div className="space-y-8">
       <Dropzone
         accept="video/*"
-        label="Drop a video file here"
-        hint="MP4, WebM, MOV — analyzed entirely in your browser."
+        label={t.dropzone.video.label}
+        hint={t.dropzone.video.hint}
         onFile={process}
         onRandom={loadRandom}
         disabled={loading}
@@ -103,15 +104,15 @@ export function VideoTab({ initialExampleId }: { initialExampleId?: string }) {
           <div className="flex flex-wrap items-center justify-between gap-3">
             <h2 className="text-lg font-medium">{filename}</h2>
             <ActionButtons
-              title={`Video: ${filename}`}
+              title={`${t.media.video}: ${filename}`}
               onReset={reset}
-              stats={ {
-                Duration: formatDuration(stats.duration),
-                FPS: stats.fps,
-                Resolution: `${stats.width}×${stats.height}`,
-                "Frame Count": formatFull(stats.frameCount),
-                "Estimated Numeric Values": formatFull(stats.estimatedValues),
-              } }
+              stats={{
+                [t.stats.duration]: formatDuration(stats.duration),
+                [t.stats.fps]: stats.fps,
+                [t.stats.resolution]: `${stats.width}×${stats.height}`,
+                [t.stats.frameCount]: formatFull(stats.frameCount),
+                [t.stats.estNumericValues]: formatFull(stats.estimatedValues),
+              }}
             />
           </div>
 
@@ -120,19 +121,19 @@ export function VideoTab({ initialExampleId }: { initialExampleId?: string }) {
             src={stats.objectUrl}
             className="max-h-[420px] w-full rounded-xl border bg-black"
           >
-            Your browser does not support the video element.
+            {t.player.videoFallback}
           </video>
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <StatCard label="Duration" value={formatDuration(stats.duration)} />
+            <StatCard label={t.stats.duration} value={formatDuration(stats.duration)} />
             <StatCard
-              label="FPS"
+              label={t.stats.fps}
               value={stats.fps}
-              hint={stats.fpsEstimated ? "assumed" : "measured"}
+              hint={stats.fpsEstimated ? t.stats.assumed : t.stats.measured}
             />
-            <StatCard label="Resolution" value={`${stats.width}×${stats.height}`} />
+            <StatCard label={t.stats.resolution} value={`${stats.width}×${stats.height}`} />
             <StatCard
-              label="Est. Frame Count"
+              label={t.stats.estFrameCount}
               value={formatFull(stats.frameCount)}
               hint={`${formatDuration(stats.duration)} × ${stats.fps} fps`}
             />
@@ -148,12 +149,12 @@ export function VideoTab({ initialExampleId }: { initialExampleId?: string }) {
 
           <BigNumberBanner
             value={stats.estimatedValues}
-            unitSentence="numbers — images played in sequence."
+            unitSentence={t.banner.video}
           />
 
           <p className="text-center text-xs text-muted-foreground">
-            frames ({formatFull(stats.frameCount)}) × width ({stats.width}) × height ({stats.height}) ×
-            channels ({stats.channels})
+            {t.formula.frames} ({formatFull(stats.frameCount)}) × {t.formula.width} ({stats.width}) × {t.formula.height} ({stats.height}) ×
+            {" "}{t.formula.channels} ({stats.channels})
           </p>
 
           <EducationalNote explanation={explanation} />
