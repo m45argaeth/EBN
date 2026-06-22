@@ -1,26 +1,28 @@
+"use client"
+
 import Link from "next/link"
 
+import { useI18n } from "@/lib/i18n"
+
 export function SiteFooter() {
+  const { t } = useI18n()
   return (
     <footer className="border-t border-border/60">
       <div className="container flex flex-col items-center gap-3 py-10 text-center text-sm text-muted-foreground">
-        <p>
-          Everything Becomes Numbers — because to a computer, everything is just
-          numbers.
-        </p>
+        <p>{t.footer.tagline}</p>
         <div className="flex items-center gap-6">
           <Link href="/" className="transition-colors hover:text-foreground">
-            Home
+            {t.footer.home}
           </Link>
           <Link
             href="/playground"
             className="transition-colors hover:text-foreground"
           >
-            Playground
+            {t.footer.playground}
           </Link>
         </div>
         <p className="text-xs">
-          Made with ❤️ by{" "}
+          {t.footer.madeWith}{" "}
           <a
             href="https://x.com/sinigajelasin"
             target="_blank"

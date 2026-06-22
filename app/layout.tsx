@@ -3,16 +3,17 @@ import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { I18nProvider } from "@/lib/i18n"
 import { Toaster } from "@/components/ui/sonner"
 
 export const metadata: Metadata = {
   title: "Everything Becomes Numbers",
   description:
-    "Because to a computer, everything is just numbers. Upload an image, audio file, or video and discover how computers transform it into numerical data before AI can understand it.",
-  keywords: ["AI", "education", "pixels", "audio", "video", "numbers", "playground"],
+    "Karena bagi komputer, semuanya hanyalah angka. Unggah gambar, file audio, atau video dan temukan bagaimana komputer mengubahnya menjadi data angka sebelum AI bisa memahaminya.",
+  keywords: ["AI", "edukasi", "piksel", "audio", "video", "angka", "playground"],
   openGraph: {
     title: "Everything Becomes Numbers",
-    description: "Because to a computer, everything is just numbers.",
+    description: "Karena bagi komputer, semuanya hanyalah angka.",
     type: "website",
   },
 }
@@ -23,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="id" suppressHydrationWarning>
       <body className={`${GeistSans.variable} ${GeistMono.variable} font-sans`}>
         <ThemeProvider
           attribute="class"
@@ -31,8 +32,10 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          {children}
-          <Toaster />
+          <I18nProvider>
+            {children}
+            <Toaster />
+          </I18nProvider>
         </ThemeProvider>
       </body>
     </html>
