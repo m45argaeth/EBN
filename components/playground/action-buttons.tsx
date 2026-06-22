@@ -6,6 +6,7 @@ import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import { copyText } from "@/lib/clipboard"
+import { useI18n } from "@/lib/i18n"
 
 interface ActionButtonsProps {
   stats: Record<string, string | number>
@@ -15,20 +16,21 @@ interface ActionButtonsProps {
 
 export function ActionButtons({ stats, title, onReset }: ActionButtonsProps) {
   const [copied, setCopied] = React.useState(false)
+  const { t } = useI18n()
 
   const statsText = React.useMemo(() => {
     const lines = Object.entries(stats).map(([k, v]) => `${k}: ${v}`)
-    return `${title}\n${lines.join("\n")}\n\nvia Everything Becomes Numbers`
-  }, [stats, title])
+    return `${title}\n${lines.join("\n")}\n\n${t.actions.via}`
+  }, [stats, title, t])
 
   const handleCopy = async () => {
     try {
       await copyText(statsText)
       setCopied(true)
-      toast.success("Stats copied to clipboard")
+      toast.success(t.actions.copied)
       setTimeout(() => setCopied(false), 1800)
     } catch {
-      toast.error("Could not copy stats")
+      toast.error(t.actions.copyError)
     }
   }
 
@@ -43,11 +45,11 @@ export function ActionButtons({ stats, title, onReset }: ActionButtonsProps) {
         await navigator.share(shareData)
       } else {
         await copyText(`${statsText}\n${shareData.url ?? ""}`.trim())
-        toast.success("Share link copied to clipboard")
+        toast.success(t.actions.shareCopied)
       }
     } catch (err) {
       if ((err as Error)?.name !== "AbortError") {
-        toast.error("Could not share")
+        toast.error(t.actions.shareError)
       }
     }
   }
@@ -56,15 +58,15 @@ export function ActionButtons({ stats, title, onReset }: ActionButtonsProps) {
     <div className="flex flex-wrap items-center gap-2">
       <Button variant="outline" size="sm" onClick={handleCopy}>
         {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-        Copy stats
+        {t.actions.copyStats}
       </Button>
       <Button variant="outline" size="sm" onClick={handleShare}>
         <Share2 className="h-4 w-4" />
-        Share
+        {t.actions.share}
       </Button>
       <Button variant="ghost" size="sm" onClick={onReset}>
         <RotateCcw className="h-4 w-4" />
-        Reset
+        {t.actions.reset}
       </Button>
     </div>
   )

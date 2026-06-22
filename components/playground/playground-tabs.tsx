@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation"
 import { Image as ImageIcon, AudioLines, Film } from "lucide-react"
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useI18n } from "@/lib/i18n"
 import { ImagesTab } from "./images-tab"
 import { AudioTab } from "./audio-tab"
 import { VideoTab } from "./video-tab"
@@ -14,6 +15,7 @@ type TabValue = (typeof VALID)[number]
 
 export function PlaygroundTabs() {
   const params = useSearchParams()
+  const { t } = useI18n()
   const initial = params.get("tab")
   const exampleId = params.get("example") ?? undefined
   const [value, setValue] = React.useState<TabValue>(
@@ -30,15 +32,15 @@ export function PlaygroundTabs() {
         <TabsList>
           <TabsTrigger value="images">
             <ImageIcon className="h-4 w-4" />
-            Images
+            {t.tabs.images}
           </TabsTrigger>
           <TabsTrigger value="audio">
             <AudioLines className="h-4 w-4" />
-            Audio
+            {t.tabs.audio}
           </TabsTrigger>
           <TabsTrigger value="video">
             <Film className="h-4 w-4" />
-            Video
+            {t.tabs.video}
           </TabsTrigger>
         </TabsList>
       </div>

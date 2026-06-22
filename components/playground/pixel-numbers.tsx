@@ -5,6 +5,7 @@ import { Binary, Grid3x3 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { rgbToHex, type ImageProbe, type PixelSample } from "@/lib/image-utils"
+import { useI18n } from "@/lib/i18n"
 import { Arrow, StageCard } from "./breakdown-ui"
 
 const ZOOM = 5 // odd so there is a clear center pixel
@@ -20,6 +21,7 @@ interface PixelNumbersProps {
 export function PixelNumbers({ src, probe }: PixelNumbersProps) {
   const [point, setPoint] = React.useState<{ x: number; y: number } | null>(null)
   const imgRef = React.useRef<HTMLImageElement>(null)
+  const { t } = useI18n()
 
   React.useEffect(() => {
     setPoint(null)
@@ -53,8 +55,8 @@ export function PixelNumbers({ src, probe }: PixelNumbersProps) {
     <>
       <StageCard
         icon={Grid3x3}
-        title="Pixels"
-        hint="Tap the image to zoom into a 5×5 patch of pixels."
+        title={t.breakdown.pixelsTitle}
+        hint={t.breakdown.pixelsHint}
       >
         <div className="grid gap-4 md:grid-cols-[1fr_auto]">
           <div className="relative overflow-hidden rounded-lg border bg-muted/30">
@@ -62,7 +64,7 @@ export function PixelNumbers({ src, probe }: PixelNumbersProps) {
             <img
               ref={imgRef}
               src={src}
-              alt="Preview"
+              alt={t.pixelInspector.previewAlt}
               onPointerDown={handlePointer}
               onPointerMove={(e) => {
                 if (e.buttons === 1 || e.pointerType === "touch") handlePointer(e)
@@ -73,7 +75,7 @@ export function PixelNumbers({ src, probe }: PixelNumbersProps) {
           <div className="flex flex-col items-center justify-center gap-2">
             <div
               className="grid h-[150px] w-[150px] overflow-hidden rounded-md border"
-              style={ { gridTemplateColumns: `repeat(${ZOOM}, 1fr)` } }
+              style={{ gridTemplateColumns: `repeat(${ZOOM}, 1fr)` }}
             >
               {grid.map((p, i) => (
                 <div
@@ -82,7 +84,7 @@ export function PixelNumbers({ src, probe }: PixelNumbersProps) {
                     "h-full w-full",
                     i === centerIndex && "ring-2 ring-inset ring-primary",
                   )}
-                  style={ { backgroundColor: `rgb(${p.r}, ${p.g}, ${p.b})` } }
+                  style={{ backgroundColor: `rgb(${p.r}, ${p.g}, ${p.b})` }}
                 />
               ))}
             </div>
@@ -90,9 +92,9 @@ export function PixelNumbers({ src, probe }: PixelNumbersProps) {
               <div className="flex items-center gap-2 font-mono text-xs">
                 <span
                   className="h-5 w-5 rounded border"
-                  style={ {
+                  style={{
                     backgroundColor: `rgb(${center.r}, ${center.g}, ${center.b})`,
-                  } }
+                  }}
                 />
                 {rgbToHex(center.r, center.g, center.b)}
               </div>
@@ -101,16 +103,16 @@ export function PixelNumbers({ src, probe }: PixelNumbersProps) {
         </div>
       </StageCard>
 
-      <Arrow label="becomes" />
+      <Arrow label={t.breakdown.becomes} />
 
       <StageCard
         icon={Binary}
-        title="Numbers"
-        hint="Every pixel is just three numbers — red, green, blue (0–255)."
+        title={t.breakdown.numbersTitle}
+        hint={t.breakdown.pixelNumbersHint}
       >
         <div
           className="grid gap-1"
-          style={ { gridTemplateColumns: `repeat(${ZOOM}, 1fr)` } }
+          style={{ gridTemplateColumns: `repeat(${ZOOM}, 1fr)` }}
         >
           {grid.map((p, i) => (
             <div

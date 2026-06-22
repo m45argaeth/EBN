@@ -1,54 +1,38 @@
+"use client"
+
 import Link from "next/link"
 import { Image as ImageIcon, AudioLines, Film, ArrowUpRight } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-
-const SECTIONS = [
-  {
-    id: "images",
-    icon: ImageIcon,
-    title: "Images",
-    formula: "pixels × color channels",
-    body: "A photo is a grid of pixels. Each pixel is a few numbers — red, green, and blue intensities. A single phone photo is tens of millions of values.",
-  },
-  {
-    id: "audio",
-    icon: AudioLines,
-    title: "Audio",
-    formula: "duration × sample rate × channels",
-    body: "Sound is captured as amplitude samples thousands of times per second. A short clip already holds hundreds of thousands of measurements.",
-  },
-  {
-    id: "video",
-    icon: Film,
-    title: "Video",
-    formula: "frames × width × height × channels",
-    body: "Video is just many images shown rapidly. Multiply the pixels in one frame by every frame and the numbers explode into the billions.",
-  },
-]
+import { useI18n } from "@/lib/i18n"
 
 export function FeatureSections() {
+  const { t } = useI18n()
+
+  const sections = [
+    { id: "images", icon: ImageIcon, ...t.features.images },
+    { id: "audio", icon: AudioLines, ...t.features.audio },
+    { id: "video", icon: Film, ...t.features.video },
+  ]
+
   return (
     <section className="container py-20 sm:py-28">
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          Humans see meaning. Computers see numbers.
+          {t.features.heading}
         </h2>
-        <p className="mt-4 text-muted-foreground">
-          Every kind of media collapses into the same thing once a machine looks
-          at it: long lists of numbers.
-        </p>
+        <p className="mt-4 text-muted-foreground">{t.features.subtitle}</p>
       </div>
 
       <div className="mt-14 grid gap-6 md:grid-cols-3">
-        {SECTIONS.map((s, i) => (
+        {sections.map((s, i) => (
           <Link
             key={s.id}
             href={`/playground?tab=${s.id}`}
             className={cn(
               "group relative flex flex-col rounded-2xl border bg-card p-7 transition-all hover:-translate-y-1 hover:shadow-lg",
             )}
-            style={ { animationDelay: `${i * 80}ms` } }
+            style={{ animationDelay: `${i * 80}ms` }}
           >
             <div className="flex items-center justify-between">
               <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-muted">

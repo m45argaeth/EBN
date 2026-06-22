@@ -1,17 +1,21 @@
+"use client"
+
 import * as React from "react"
 import { Binary, Film, Grid3x3, Image as ImageIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-
-const STEPS = [
-  { icon: Film, label: "Video", desc: "A clip is a sequence of frames." },
-  { icon: ImageIcon, label: "Frames", desc: "~30 still images every second." },
-  { icon: Grid3x3, label: "Pixels", desc: "Each frame is a grid of pixels." },
-  { icon: Binary, label: "Numbers", desc: "Each pixel is just RGB numbers." },
-]
+import { useI18n } from "@/lib/i18n"
 
 /** The Video -> Frames -> Pixels -> Numbers concept diagram. */
 export function Pipeline({ className }: { className?: string }) {
+  const { t } = useI18n()
+  const steps = [
+    { icon: Film, ...t.pipeline.video },
+    { icon: ImageIcon, ...t.pipeline.frames },
+    { icon: Grid3x3, ...t.pipeline.pixels },
+    { icon: Binary, ...t.pipeline.numbers },
+  ]
+
   return (
     <div
       className={cn(
@@ -19,14 +23,14 @@ export function Pipeline({ className }: { className?: string }) {
         className,
       )}
     >
-      {STEPS.map((step, i) => (
+      {steps.map((step, i) => (
         <React.Fragment key={step.label}>
           <div className="flex flex-1 flex-col items-center gap-2 rounded-xl border bg-card p-4 text-center">
             <step.icon className="h-6 w-6 text-muted-foreground" />
             <span className="text-sm font-medium">{step.label}</span>
             <span className="text-xs text-muted-foreground">{step.desc}</span>
           </div>
-          {i < STEPS.length - 1 ? (
+          {i < steps.length - 1 ? (
             <div className="flex items-center justify-center px-1 text-xl text-muted-foreground">
               <span className="sm:hidden">↓</span>
               <span className="hidden sm:inline">→</span>

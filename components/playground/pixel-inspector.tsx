@@ -4,6 +4,7 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 import { rgbToHex, type ImageProbe, type PixelSample } from "@/lib/image-utils"
+import { useI18n } from "@/lib/i18n"
 
 interface PixelInspectorProps {
   src: string
@@ -16,6 +17,7 @@ export function PixelInspector({ src, probe }: PixelInspectorProps) {
   const imgRef = React.useRef<HTMLImageElement>(null)
   const [hover, setHover] = React.useState<PixelSample | null>(null)
   const [grid, setGrid] = React.useState<PixelSample[]>([])
+  const { t } = useI18n()
 
   const handleMove = (e: React.MouseEvent<HTMLImageElement>) => {
     const img = imgRef.current
@@ -39,7 +41,7 @@ export function PixelInspector({ src, probe }: PixelInspectorProps) {
         <img
           ref={imgRef}
           src={src}
-          alt="Uploaded preview"
+          alt={t.pixelInspector.previewAlt}
           onMouseMove={handleMove}
           onMouseLeave={() => setHover(null)}
           className="mx-auto max-h-[420px] w-auto cursor-crosshair object-contain"
@@ -59,13 +61,13 @@ export function PixelInspector({ src, probe }: PixelInspectorProps) {
 
       <div className="rounded-xl border p-3">
         <p className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-          Pixel zoom
+          {t.pixelInspector.zoom}
         </p>
         {hover ? (
           <>
             <div
               className="grid overflow-hidden rounded-md border"
-              style={ { gridTemplateColumns: `repeat(${GRID}, 1fr)` } }
+              style={{ gridTemplateColumns: `repeat(${GRID}, 1fr)` }}
             >
               {grid.map((p, i) => {
                 const isCenter = i === Math.floor(grid.length / 2)
@@ -76,7 +78,7 @@ export function PixelInspector({ src, probe }: PixelInspectorProps) {
                       "aspect-square",
                       isCenter && "ring-2 ring-inset ring-primary",
                     )}
-                    style={ { backgroundColor: `rgb(${p.r}, ${p.g}, ${p.b})` } }
+                    style={{ backgroundColor: `rgb(${p.r}, ${p.g}, ${p.b})` }}
                   />
                 )
               })}
@@ -84,9 +86,9 @@ export function PixelInspector({ src, probe }: PixelInspectorProps) {
             <div className="mt-3 flex items-center gap-2">
               <span
                 className="h-6 w-6 rounded border"
-                style={ {
+                style={{
                   backgroundColor: `rgb(${hover.r}, ${hover.g}, ${hover.b})`,
-                } }
+                }}
               />
               <span className="font-mono text-xs">
                 {rgbToHex(hover.r, hover.g, hover.b)}
@@ -95,7 +97,7 @@ export function PixelInspector({ src, probe }: PixelInspectorProps) {
           </>
         ) : (
           <p className="text-sm text-muted-foreground">
-            Hover over the image to inspect individual pixels.
+            {t.pixelInspector.hoverHint}
           </p>
         )}
       </div>

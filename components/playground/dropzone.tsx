@@ -5,6 +5,7 @@ import { UploadCloud, Shuffle } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { useI18n } from "@/lib/i18n"
 
 interface DropzoneProps {
   accept: string
@@ -27,6 +28,7 @@ export function Dropzone({
 }: DropzoneProps) {
   const inputRef = React.useRef<HTMLInputElement>(null)
   const [dragging, setDragging] = React.useState(false)
+  const { t } = useI18n()
 
   const handleFiles = (files: FileList | null) => {
     if (!files || files.length === 0) return
@@ -62,11 +64,11 @@ export function Dropzone({
 
       <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
         <Button onClick={() => inputRef.current?.click()} disabled={disabled}>
-          Choose file
+          {t.dropzone.chooseFile}
         </Button>
         <Button variant="outline" onClick={onRandom} disabled={disabled}>
           <Shuffle className="h-4 w-4" />
-          Random Example
+          {t.dropzone.randomExample}
         </Button>
       </div>
 
