@@ -1,0 +1,25 @@
+import Link from "next/link"
+
+export function SiteFooter() {
+  return (
+    <footer className="border-t border-border/60">
+      <div className="container flex flex-col items-center justify-between gap-4 py-10 text-sm text-muted-foreground sm:flex-row">
+        <p>
+          Everything Becomes Numbers — because to a computer, everything is just
+          numbers.
+        </p>
+        <div className="flex items-center gap-6">
+          <Link href="/" className="transition-colors hover:text-foreground">
+            Home
+          </Link>
+          <Link
+            href="/playground"
+            className="transition-colors hover:text-foreground"
+          >
+            Playground
+          </Link>
+        </div>
+      </div>
+    </footer>
+  )
+}
