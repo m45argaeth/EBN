@@ -12,7 +12,7 @@ import { Pipeline } from "./pipeline"
 import { Skeleton } from "@/components/ui/skeleton"
 import { analyzeVideo, type VideoStats } from "@/lib/video-utils"
 import { explain } from "@/lib/explanations"
-import { formatFull, formatCompact, formatDuration } from "@/lib/format"
+import { formatFull, formatDuration } from "@/lib/format"
 import { exampleToFile, findExample, randomExample } from "@/lib/examples"
 
 export function VideoTab({ initialExampleId }: { initialExampleId?: string }) {

@@ -202,7 +202,7 @@ function encodeWav(channels: Float32Array[], sampleRate: number): Blob {
   let offset = 44
   for (let i = 0; i < len; i++) {
     for (let c = 0; c < numCh; c++) {
-      let s = Math.max(-1, Math.min(1, channels[c][i]))
+      const s = Math.max(-1, Math.min(1, channels[c][i]))
       view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7fff, true)
       offset += 2
     }
