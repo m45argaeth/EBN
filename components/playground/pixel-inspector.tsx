@@ -65,7 +65,7 @@ export function PixelInspector({ src, probe }: PixelInspectorProps) {
           <>
             <div
               className="grid overflow-hidden rounded-md border"
-              style={{ gridTemplateColumns: `repeat(${GRID}, 1fr)` }}
+              style={ { gridTemplateColumns: `repeat(${GRID}, 1fr)` } }
             >
               {grid.map((p, i) => {
                 const isCenter = i === Math.floor(grid.length / 2)
@@ -76,7 +76,7 @@ export function PixelInspector({ src, probe }: PixelInspectorProps) {
                       "aspect-square",
                       isCenter && "ring-2 ring-inset ring-primary",
                     )}
-                    style={{ backgroundColor: `rgb(${p.r}, ${p.g}, ${p.b})` }}
+                    style={ { backgroundColor: `rgb(${p.r}, ${p.g}, ${p.b})` } }
                   />
                 )
               })}
@@ -84,9 +84,9 @@ export function PixelInspector({ src, probe }: PixelInspectorProps) {
             <div className="mt-3 flex items-center gap-2">
               <span
                 className="h-6 w-6 rounded border"
-                style={{
+                style={ {
                   backgroundColor: `rgb(${hover.r}, ${hover.g}, ${hover.b})`,
-                }}
+                } }
               />
               <span className="font-mono text-xs">
                 {rgbToHex(hover.r, hover.g, hover.b)}

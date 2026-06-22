@@ -48,7 +48,7 @@ export function FeatureSections() {
             className={cn(
               "group relative flex flex-col rounded-2xl border bg-card p-7 transition-all hover:-translate-y-1 hover:shadow-lg",
             )}
-            style={{ animationDelay: `${i * 80}ms` }}
+            style={ { animationDelay: `${i * 80}ms` } }
           >
             <div className="flex items-center justify-between">
               <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-muted">
