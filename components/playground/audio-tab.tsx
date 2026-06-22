@@ -6,6 +6,7 @@ import { toast } from "sonner"
 import { Dropzone } from "./dropzone"
 import { StatCard } from "./stat-card"
 import { Waveform } from "./waveform"
+import { AudioBreakdown } from "./audio-breakdown"
 import { EducationalNote } from "./educational-note"
 import { BigNumberBanner } from "./big-number-banner"
 import { ActionButtons } from "./action-buttons"
@@ -119,6 +120,8 @@ export function AudioTab({ initialExampleId }: { initialExampleId?: string }) {
           </audio>
 
           <Waveform peaks={stats.peaks} />
+
+          <AudioBreakdown objectUrl={stats.objectUrl} peaks={stats.peaks} />
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             <StatCard label="Duration" value={formatDuration(stats.duration)} />

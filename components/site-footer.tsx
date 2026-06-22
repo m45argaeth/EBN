@@ -27,16 +27,7 @@ export function SiteFooter() {
             rel="noopener noreferrer"
             className="font-medium text-foreground/80 transition-colors hover:text-foreground"
           >
-            Ga
-          </a>{" "}
-          · Curious About Everything 🔍{" "}
-          <a
-            href="https://x.com/sinigajelasin"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transition-colors hover:text-foreground"
-          >
-            @sinigajelasin
+            Ga | Curious About Everything 🔍
           </a>
         </p>
       </div>

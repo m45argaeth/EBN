@@ -6,6 +6,7 @@ import { toast } from "sonner"
 import { Dropzone } from "./dropzone"
 import { StatCard } from "./stat-card"
 import { PixelInspector } from "./pixel-inspector"
+import { ImageBreakdown } from "./image-breakdown"
 import { EducationalNote } from "./educational-note"
 import { BigNumberBanner } from "./big-number-banner"
 import { ActionButtons } from "./action-buttons"
@@ -117,6 +118,8 @@ export function ImagesTab({ initialExampleId }: { initialExampleId?: string }) {
           </div>
 
           <PixelInspector src={stats.objectUrl} probe={probe} />
+
+          <ImageBreakdown probe={probe} />
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
             <StatCard label="Width" value={`${stats.width}px`} />
