@@ -9,6 +9,7 @@ import { EducationalNote } from "./educational-note"
 import { BigNumberBanner } from "./big-number-banner"
 import { ActionButtons } from "./action-buttons"
 import { Pipeline } from "./pipeline"
+import { VideoBreakdown } from "./video-breakdown"
 import { Skeleton } from "@/components/ui/skeleton"
 import { analyzeVideo, type VideoStats } from "@/lib/video-utils"
 import { explain } from "@/lib/explanations"
@@ -138,6 +139,12 @@ export function VideoTab({ initialExampleId }: { initialExampleId?: string }) {
           </div>
 
           <Pipeline />
+
+          <VideoBreakdown
+            objectUrl={stats.objectUrl}
+            duration={stats.duration}
+            channels={stats.channels}
+          />
 
           <BigNumberBanner
             value={stats.estimatedValues}
