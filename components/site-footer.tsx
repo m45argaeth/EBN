@@ -4,7 +4,7 @@ import Link from "next/link"
 import { Heart } from "lucide-react"
 
 import { useI18n } from "@/lib/i18n"
-import { SITE, SERIES, PORTFOLIO, AUTHOR, UI } from "@/lib/site-config"
+import { SITE, PLAYGROUNDS, UNIVERSES, PORTFOLIO, AUTHOR, UI } from "@/lib/site-config"
 
 export function SiteFooter() {
 	const { locale } = useI18n()
@@ -61,34 +61,56 @@ export function SiteFooter() {
 						</ul>
 					</div>
 
-					<div className="space-y-3">
+					<div className="space-y-4">
 						<h3 className="text-sm font-semibold">{ui.seriesHeading}</h3>
-						<ul className="space-y-2 text-sm text-muted-foreground">
-							{SERIES.map((item) => {
-								const current = item.id === SITE.id
-								return (
-									<li key={item.id}>
-										{current ? (
-											<span className="flex flex-wrap items-center gap-1.5 font-medium text-foreground">
-												{item.name}
-												<span className="text-xs font-normal text-muted-foreground">
-													({ui.current})
-												</span>
-											</span>
-										) : (
-											<a
-												href={item.url}
-												target="_blank"
-												rel="noreferrer"
-												className="hover:text-foreground"
-											>
-												{item.name}
-											</a>
-										)}
-									</li>
-								)
-							})}
-						</ul>
+						{UNIVERSES.map((universe) => (
+							<div key={universe.id} className="space-y-2">
+								<p className="text-xs font-medium uppercase tracking-wide text-muted-foreground/70">
+									{universe.label[locale]}
+								</p>
+								<ul className="space-y-2 text-sm text-muted-foreground">
+									{PLAYGROUNDS.filter(
+										(item) => item.universe === universe.id,
+									).map((item) => {
+										const current = item.id === SITE.id
+										if (current) {
+											return (
+												<li key={item.id}>
+													<span className="flex flex-wrap items-center gap-1.5 font-medium text-foreground">
+														{item.name}
+														<span className="text-xs font-normal text-muted-foreground">
+															({ui.current})
+														</span>
+													</span>
+												</li>
+											)
+										}
+										if (item.status === "wip") {
+											return (
+												<li key={item.id}>
+													<span className="flex flex-wrap items-center gap-1.5 text-muted-foreground/50">
+														{item.name}
+														<span className="text-xs">\uD83D\uDEA7 {ui.soon}</span>
+													</span>
+												</li>
+											)
+										}
+										return (
+											<li key={item.id}>
+												<a
+													href={item.url}
+													target="_blank"
+													rel="noreferrer"
+													className="hover:text-foreground"
+												>
+													{item.name}
+												</a>
+											</li>
+										)
+									})}
+								</ul>
+							</div>
+						))}
 					</div>
 				</div>
 

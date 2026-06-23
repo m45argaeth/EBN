@@ -39,6 +39,103 @@ export const SERIES: SeriesItem[] = [
 	},
 ]
 
+export type Universe = "ebn" | "mind"
+
+export interface Playground {
+	id: string
+	name: string
+	url?: string
+	universe: Universe
+	status: "live" | "wip"
+}
+
+/** Every playground across both universes (live + upcoming). */
+export const PLAYGROUNDS: Playground[] = [
+	{
+		id: "ebn",
+		name: "Everything Becomes Numbers",
+		url: "https://ebn-playground.vercel.app",
+		universe: "ebn",
+		status: "live",
+	},
+	{
+		id: "ttb",
+		name: "Text To Binary",
+		url: "https://ttb-playground.vercel.app",
+		universe: "ebn",
+		status: "live",
+	},
+	{
+		id: "vfe",
+		name: "Video Frame Explorer",
+		url: "https://vfe-playground.vercel.app",
+		universe: "ebn",
+		status: "live",
+	},
+	{
+		id: "te",
+		name: "Token Explorer",
+		url: "https://te-playground.vercel.app",
+		universe: "ebn",
+		status: "live",
+	},
+	{ id: "embedding", name: "Embedding Explorer", universe: "ebn", status: "wip" },
+	{ id: "prompt", name: "Prompt Explorer", universe: "ebn", status: "wip" },
+	{
+		id: "hallucination",
+		name: "Hallucination Explorer",
+		universe: "ebn",
+		status: "wip",
+	},
+	{
+		id: "compression",
+		name: "Compression Explorer",
+		universe: "ebn",
+		status: "wip",
+	},
+	{
+		id: "packet",
+		name: "Internet Packet Explorer",
+		universe: "ebn",
+		status: "wip",
+	},
+	{
+		id: "human-vs-ai",
+		name: "Human vs AI Explorer",
+		universe: "ebn",
+		status: "wip",
+	},
+	{
+		id: "bd",
+		name: "Bias Detector",
+		url: "https://bd-playground-snowy.vercel.app",
+		universe: "mind",
+		status: "live",
+	},
+	{ id: "memory", name: "Memory Explorer", universe: "mind", status: "wip" },
+	{
+		id: "false-memory",
+		name: "False Memory Explorer",
+		universe: "mind",
+		status: "wip",
+	},
+	{
+		id: "attention",
+		name: "Attention Explorer",
+		universe: "mind",
+		status: "wip",
+	},
+	{ id: "dopamine", name: "Dopamine Explorer", universe: "mind", status: "wip" },
+]
+
+export const UNIVERSES: { id: Universe; label: Record<Locale, string> }[] = [
+	{ id: "ebn", label: { id: "Semesta EBN", en: "EBN Universe" } },
+	{
+		id: "mind",
+		label: { id: "Semesta Pikiran Manusia", en: "Human Mind Universe" },
+	},
+]
+
 /** Portfolio hub that will host more SaaS over time. */
 export const PORTFOLIO = {
 	name: "Curious About Everything",
@@ -46,7 +143,7 @@ export const PORTFOLIO = {
 }
 
 export const AUTHOR = {
-	name: "Ga | Curious About Everything 🔍",
+	name: "Ga | Curious About Everything \uD83D\uDD0D",
 	url: "https://x.com/sinigajelasin",
 }
 
@@ -56,6 +153,7 @@ interface UIStrings {
 	tryIt: string
 	exploreHeading: string
 	seriesHeading: string
+	soon: string
 	portfolio: string
 	current: string
 	madeWith: string
@@ -69,7 +167,8 @@ export const UI: Record<Locale, UIStrings> = {
 		playground: "Playground",
 		tryIt: "Coba",
 		exploreHeading: "Jelajahi",
-		seriesHeading: "Jelajahi seri ini",
+		seriesHeading: "Jelajahi semesta",
+		soon: "Segera",
 		portfolio: "Portofolio",
 		current: "kamu di sini",
 		madeWith: "Dibuat dengan",
@@ -80,7 +179,8 @@ export const UI: Record<Locale, UIStrings> = {
 		playground: "Playground",
 		tryIt: "Try It",
 		exploreHeading: "Explore",
-		seriesHeading: "Explore the series",
+		seriesHeading: "Explore the universe",
+		soon: "Soon",
 		portfolio: "Portfolio",
 		current: "you are here",
 		madeWith: "Made with",
