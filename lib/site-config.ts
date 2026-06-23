@@ -2,7 +2,7 @@ import { Binary } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import type { Locale } from "@/lib/i18n"
 
-export type SiteId = "ebn" | "te" | "ttb"
+export type SiteId = "ebn" | "te" | "ttb" | "vfe" | "bd"
 
 export interface SeriesItem {
 	id: SiteId
@@ -10,7 +10,7 @@ export interface SeriesItem {
 	url: string
 }
 
-/** The educational SaaS in the same series. Shared across all three sites. */
+/** The educational SaaS in the same series. Shared across every site. */
 export const SERIES: SeriesItem[] = [
 	{
 		id: "ebn",
@@ -27,6 +27,16 @@ export const SERIES: SeriesItem[] = [
 		name: "Text To Binary",
 		url: "https://ttb-playground.vercel.app",
 	},
+	{
+		id: "vfe",
+		name: "Video Frame Explorer",
+		url: "https://vfe-playground.vercel.app",
+	},
+	{
+		id: "bd",
+		name: "Bias Detector",
+		url: "https://bd-playground-snowy.vercel.app",
+	},
 ]
 
 /** Portfolio hub that will host more SaaS over time. */
@@ -36,7 +46,7 @@ export const PORTFOLIO = {
 }
 
 export const AUTHOR = {
-	name: "Ga | Curious About Everything \uD83D\uDD0D",
+	name: "Ga | Curious About Everything 🔍",
 	url: "https://x.com/sinigajelasin",
 }
 
