@@ -3,10 +3,16 @@
 > **Because to a computer, everything is just numbers.**
 > **Karena bagi komputer, semuanya hanyalah angka.**
 
+<div align="center">
+
 ![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38bdf8?logo=tailwindcss)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.4-38bdf8?logo=tailwindcss)
 ![Vercel](https://img.shields.io/badge/Vercel-Deployed-000?logo=vercel)
+
+🔗 **Live → [ebn-playground.vercel.app](https://ebn-playground.vercel.app)**
+
+</div>
 
 ---
 
@@ -16,22 +22,23 @@
 
 No server. No uploads. 100% client-side.
 
-🔗 **Live:** [ebn-playground.vercel.app](https://ebn-playground.vercel.app)
-
 ---
 
 ## ✨ Features
 
 | Feature | Description |
 |---|---|
-| 🖼️ **Image Breakdown** | See every pixel as RGB values, explore with the pixel inspector |
-| 🔊 **Audio Breakdown** | Visualize waveform data, inspect sample values |
-| 🎬 **Video Breakdown** | Extract frames and examine pixel data per frame |
-| 🔍 **Pixel Inspector** | Hover & click any pixel to see its raw numbers |
-| 🌗 **Dark / Light Theme** | Toggle between themes, with system preference support |
+| 🖼️ **Image Breakdown** | Decode images to canvas, inspect every pixel's RGB(A) values with hover pixel inspector & zoom grid |
+| 🔊 **Audio Breakdown** | Decode audio via Web Audio API, visualize waveform, inspect individual amplitude samples |
+| 🎬 **Video Breakdown** | Extract frames via canvas seeking, inspect per-frame pixel data, see video→frames→pixels→numbers pipeline |
+| 🔍 **Pixel Inspector** | Hover & click any pixel to see its raw RGB values in real-time |
+| 🎲 **Random Example** | Generate synthetic media entirely client-side — no binary assets in the repo |
+| 🧠 **Educational Copy** | Dynamic "Humans see X / Computers see Y" explanations personalized to your content |
+| 🌗 **Dark / Light Theme** | Toggle between themes with system preference support |
 | 🌏 **Bahasa Indonesia / English** | Full bilingual UI with seamless language switching |
-| 📋 **Copy & Share** | One-click copy of numerical data |
+| 📋 **Copy & Share** | One-click copy of stats & shareable links |
 | 📱 **Responsive** | Works on desktop and mobile |
+| 🔒 **Privacy-First** | Everything runs in your browser — no data leaves your device |
 
 ---
 
@@ -41,13 +48,14 @@ No server. No uploads. 100% client-side.
 |---|---|
 | Framework | [Next.js 15](https://nextjs.org/) (App Router) |
 | UI Library | [React 19](https://react.dev/) |
-| Language | [TypeScript](https://www.typescriptlang.org/) |
-| Styling | [Tailwind CSS](https://tailwindcss.com/) |
-| Components | [shadcn/ui](https://ui.shadcn.com/) |
+| Language | [TypeScript 5](https://www.typescriptlang.org/) |
+| Styling | [Tailwind CSS 3.4](https://tailwindcss.com/) + tailwindcss-animate |
+| Components | [shadcn/ui](https://ui.shadcn.com/) (new-york style) |
 | Theming | [next-themes](https://github.com/pacocoursey/next-themes) |
 | Notifications | [sonner](https://sonner.emilkowal.dev/) |
 | Icons | [lucide-react](https://lucide.dev/) |
-| Font | [Geist](https://vercel.com/font) |
+| Fonts | Inter (sans) + JetBrains Mono (mono) via next/font |
+| Utilities | clsx, tailwind-merge, class-variance-authority |
 
 ---
 
@@ -55,52 +63,43 @@ No server. No uploads. 100% client-side.
 
 ```
 ├── app/
-│   ├── globals.css
-│   ├── layout.tsx
-│   ├── page.tsx
+│   ├── globals.css                    # Global styles & CSS variables
+│   ├── layout.tsx                     # Root layout (fonts, providers, header/footer)
+│   ├── page.tsx                       # Landing page
 │   └── playground/
-│       └── page.tsx
+│       └── page.tsx                   # Playground page
 ├── components/
 │   ├── landing/
-│   │   ├── hero
-│   │   ├── feature-sections
-│   │   ├── how-it-works
-│   │   └── cta
+│   │   ├── hero.tsx                   # Hero with CTA + "Random Example"
+│   │   ├── feature-sections.tsx       # Image/Audio/Video feature cards
+│   │   ├── how-it-works.tsx           # 3-step explainer
+│   │   └── cta.tsx                    # Call-to-action banner
 │   ├── playground/
-│   │   ├── action-buttons
-│   │   ├── audio-breakdown / audio-tab
-│   │   ├── big-number-banner
-│   │   ├── breakdown-ui
-│   │   ├── dropzone
-│   │   ├── educational-note
-│   │   ├── image-breakdown / images-tab
-│   │   ├── pipeline
-│   │   ├── pixel-inspector / pixel-numbers
-│   │   ├── playground-intro / playground-tabs
-│   │   ├── stat-card
-│   │   ├── video-breakdown / video-tab
-│   │   └── waveform
-│   ├── big-number.tsx
-│   ├── language-toggle.tsx
-│   ├── site-footer.tsx
-│   ├── site-header.tsx
-│   ├── theme-provider.tsx
-│   ├── theme-toggle.tsx
-│   └── ui/
-│       ├── badge, button, card, separator
-│       ├── skeleton, sonner, tabs
-│       └── ...
+│   │   ├── playground-tabs.tsx        # Tab switcher (Images/Audio/Video)
+│   │   ├── dropzone.tsx               # Drag-and-drop file upload
+│   │   ├── image-breakdown.tsx        # Image pixel analysis
+│   │   ├── audio-breakdown.tsx        # Audio waveform & sample analysis
+│   │   ├── video-breakdown.tsx        # Video frame extraction & analysis
+│   │   ├── pixel-inspector.tsx        # Hover pixel RGB readout
+│   │   ├── waveform.tsx               # Interactive SVG waveform
+│   │   ├── pipeline.tsx               # Video→Frames→Pixels→Numbers viz
+│   │   ├── educational-note.tsx       # "Humans see X / Computers see Y"
+│   │   ├── big-number-banner.tsx      # "~X numerical values" banner
+│   │   └── ...
+│   ├── site-header.tsx / site-footer.tsx
+│   ├── language-toggle.tsx / theme-toggle.tsx
+│   └── ui/ (badge, button, card, separator, skeleton, tabs)
 ├── lib/
-│   ├── audio-samples.ts / audio-utils.ts
-│   ├── clipboard.ts
-│   ├── examples.ts / explanations.ts
-│   ├── format.ts
-│   ├── i18n.tsx
-│   ├── image-utils.ts
-│   ├── sample-media.ts
-│   ├── site-config.ts
-│   ├── utils.ts
-│   └── video-frames.ts / video-utils.ts
+│   ├── i18n.tsx                       # Bilingual i18n system (id/en)
+│   ├── site-config.ts                 # Site data, projects, universes
+│   ├── image-utils.ts                 # ImageProbe class + canvas analysis
+│   ├── audio-utils.ts                 # Web Audio API decoding & stats
+│   ├── video-utils.ts / video-frames.ts  # Video metadata & frame extraction
+│   ├── sample-media.ts               # Synthetic media generators (canvas/WAV/MediaRecorder)
+│   ├── examples.ts                    # Example catalog (3 images, 3 audio, 3 video)
+│   ├── explanations.ts               # Dynamic educational copy
+│   ├── format.ts                      # Number formatting utilities
+│   └── utils.ts                       # cn() utility
 └── ...
 ```
 
@@ -140,25 +139,49 @@ npm start
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/m45argaeth/EBN)
 
+> 🚀 Deployed automatically to [Vercel](https://vercel.com/) on every push to `main`.
+
 ---
 
 ## 🔒 Privacy
 
-**Everything runs in your browser.** No data is sent to any server. Your images, audio, and video stay on your device — we only read pixels and samples in-browser to show you the numbers.
+**Everything runs in your browser.** No data is sent to any server. Your images, audio, and video stay on your device — we only read pixels and samples in-browser to show you the numbers. Even the "Random Example" feature generates media synthetically using canvas and Web Audio API.
 
 ---
 
-## 🧩 Part of a Series
+## 🧩 Part of the "Sini Gajelasin" Series
 
-EBN is part of a collection of educational playgrounds exploring how computers represent data:
+EBN is one of many educational playgrounds under the **[Sini Gajelasin](https://sinigajelasin.vercel.app)** hub — *Curious About Everything*.
 
-| Playground | Topic | Link |
-|---|---|---|
-| 🔤 **TtB** | Text → Binary | [ttb-playground.vercel.app](https://ttb-playground.vercel.app) · [GitHub](https://github.com/m45argaeth/TtB) |
-| 🔢 **EBN** | Media → Numbers | [ebn-playground.vercel.app](https://ebn-playground.vercel.app) · [GitHub](https://github.com/m45argaeth/EBN) |
+### 🪐 EBN Universe — How Computers Process Data
+
+| # | Playground | Topic | Status | Link |
+|---|---|---|---|---|
+| 1 | 🔢 **EBN** | Media → Numbers | 🟢 Live | [ebn-playground.vercel.app](https://ebn-playground.vercel.app) · [GitHub](https://github.com/m45argaeth/EBN) |
+| 2 | 🔤 **TtB** | Text → Binary | 🟢 Live | [ttb-playground.vercel.app](https://ttb-playground.vercel.app) · [GitHub](https://github.com/m45argaeth/TtB) |
+| 3 | 🔡 **Token Explorer** | Text → Tokens | 🟢 Live | [te-playground.vercel.app](https://te-playground.vercel.app) · [GitHub](https://github.com/m45argaeth/TE) |
+| 4 | 🎬 **Video Frame Explorer** | Video → Frames | 🟢 Live | [vfe-playground.vercel.app](https://vfe-playground.vercel.app) · [GitHub](https://github.com/m45argaeth/VFE) |
+| 5 | 🧠 **Embedding Explorer** | Words → Vectors | 🟡 WIP | — |
+| 6 | 💬 **Prompt Explorer** | Prompt → Tokens → Output | 🟡 WIP | — |
+| 7 | 🤥 **Hallucination Explorer** | LLM Hallucination | 🟡 WIP | — |
+| 8 | 📦 **Compression Explorer** | Data → Compression | 🟡 WIP | — |
+| 9 | 🌐 **Internet Packet Explorer** | Data → Packets | 🟡 WIP | — |
+| 10 | 🤖 **Human vs AI Explorer** | Human vs AI Processing | 🟡 WIP | — |
+
+### 🧬 Human Mind Universe — How We Think
+
+| # | Playground | Topic | Status | Link |
+|---|---|---|---|---|
+| 11 | 🔍 **Bias Detector** | Cognitive Biases | 🟢 Live | [bd-playground-snowy.vercel.app](https://bd-playground-snowy.vercel.app) · [GitHub](https://github.com/m45argaeth/BD) |
+| 12 | 🧠 **Memory Explorer** | Memory Systems | 🟡 WIP | — |
+| 13 | 🌀 **False Memory Explorer** | False Memories | 🟡 WIP | — |
+| 14 | 👁️ **Attention Explorer** | Attention & Focus | 🟡 WIP | — |
+| 15 | 💊 **Dopamine Explorer** | Dopamine Loops | 🟡 WIP | — |
 
 ---
 
 ## 👤 Author
 
-Made with ❤️ by [Arga](https://github.com/m45argaeth) · Curious About Everything 🔍
+**Arga** — [GitHub](https://github.com/m45argaeth) · [Twitter/X](https://x.com/sinigajelasin) · [Blog](https://www.kompasiana.com/argacahyanugraha6628)
+
+Made with ❤️ as part of **[Sini Gajelasin](https://sinigajelasin.vercel.app)** — *Curious About Everything* 🔍
