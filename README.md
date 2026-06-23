@@ -161,7 +161,7 @@ EBN is one of many educational playgrounds under the **[Sini Gajelasin](https://
 | 2 | 🔤 **TtB** | Text → Binary | 🟢 Live | [ttb-playground.vercel.app](https://ttb-playground.vercel.app) · [GitHub](https://github.com/m45argaeth/TtB) |
 | 3 | 🔡 **Token Explorer** | Text → Tokens | 🟢 Live | [te-playground.vercel.app](https://te-playground.vercel.app) · [GitHub](https://github.com/m45argaeth/TE) |
 | 4 | 🎬 **Video Frame Explorer** | Video → Frames | 🟢 Live | [vfe-playground.vercel.app](https://vfe-playground.vercel.app) · [GitHub](https://github.com/m45argaeth/VFE) |
-| 5 | 🧠 **Embedding Explorer** | Words → Vectors | 🟡 WIP | — |
+| 5 | 🧠 **Embedding Explorer** | Words → Vectors | 🟢 Live | [ee-playground.vercel.app](https://ee-playground.vercel.app) · [GitHub](https://github.com/m45argaeth/EE) |
 | 6 | 💬 **Prompt Explorer** | Prompt → Tokens → Output | 🟡 WIP | — |
 | 7 | 🤥 **Hallucination Explorer** | LLM Hallucination | 🟡 WIP | — |
 | 8 | 📦 **Compression Explorer** | Data → Compression | 🟡 WIP | — |
