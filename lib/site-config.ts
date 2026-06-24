@@ -80,7 +80,7 @@ export const PLAYGROUNDS: Playground[] = [
 		status: "live",
 	},
 	{ id: "embedding", name: "Embedding Explorer", url: "https://ee-playground.vercel.app", universe: "ebn", status: "live" },
-	{ id: "prompt", name: "Prompt Explorer", universe: "ebn", status: "wip" },
+	{ id: "prompt", name: "Prompt Explorer", url: "https://pe-playground.vercel.app", universe: "ebn", status: "live" },
 	{
 		id: "hallucination",
 		name: "Hallucination Explorer",
