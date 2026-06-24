@@ -33,10 +33,40 @@ export const SERIES: SeriesItem[] = [
 		url: "https://vfe-playground.vercel.app",
 	},
 	{
+		id: "ee",
+		name: "Embedding Explorer",
+		url: "https://ee-playground.vercel.app",
+	},
+	{
+		id: "pe",
+		name: "Prompt Explorer",
+		url: "https://pe-playground-snowy.vercel.app",
+	},
+	{
+		id: "he",
+		name: "Hallucination Explorer",
+		url: "https://he-playground.vercel.app",
+	},
+	{
+		id: "ce",
+		name: "Compression Explorer",
+		url: "https://ce-playground.vercel.app",
+	},
+	{
+		id: "ipe",
+		name: "Internet Packet Explorer",
+		url: "https://ipe-playground.vercel.app",
+	},
+	{
+		id: "hvsai",
+		name: "Human vs AI Explorer",
+		url: "https://hvsai-playground.vercel.app",
+	},
+	{
 		id: "bd",
 		name: "Bias Detector",
 		url: "https://bd-playground-snowy.vercel.app",
-	},
+	}
 ]
 
 export type Universe = "ebn" | "mind"
@@ -84,26 +114,30 @@ export const PLAYGROUNDS: Playground[] = [
 	{
 		id: "hallucination",
 		name: "Hallucination Explorer",
+		url: "https://he-playground.vercel.app",
 		universe: "ebn",
-		status: "wip",
+		status: "live",
 	},
 	{
 		id: "compression",
 		name: "Compression Explorer",
+		url: "https://ce-playground.vercel.app",
 		universe: "ebn",
-		status: "wip",
+		status: "live",
 	},
 	{
 		id: "packet",
 		name: "Internet Packet Explorer",
+		url: "https://ipe-playground.vercel.app",
 		universe: "ebn",
-		status: "wip",
+		status: "live",
 	},
 	{
 		id: "human-vs-ai",
 		name: "Human vs AI Explorer",
+		url: "https://hvsai-playground.vercel.app",
 		universe: "ebn",
-		status: "wip",
+		status: "live",
 	},
 	{
 		id: "bd",
