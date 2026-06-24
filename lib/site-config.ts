@@ -2,7 +2,7 @@ import { Binary } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import type { Locale } from "@/lib/i18n"
 
-export type SiteId = "ebn" | "te" | "ttb" | "vfe" | "bd"
+export type SiteId = "ebn" | "te" | "ttb" | "vfe" | "bd" | "ee" | "pe" | "he" | "ce" | "ipe" | "hvsai"
 
 export interface SeriesItem {
 	id: SiteId
